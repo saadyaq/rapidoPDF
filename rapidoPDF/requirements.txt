@@ -1,0 +1,7 @@
+#Dependecies
+
+pikepdf
+PyPDF2
+pdf2docx
+python-docx
+streamlit
