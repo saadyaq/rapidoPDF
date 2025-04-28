@@ -1,9 +1,10 @@
 # app.py
 
-from modules.compress import compress_pdf, get_file__size
+from modules.compress import compress_pdf, get_file_size
+from modules.pdf_to_word import pdf_to_word
 import os
 
-def main():
+def compress_pdf_flow():
     input_pdf= input("Entrez le chemin du fichier PDF à compresser : ").strip()
     
     if not os.path.exists(input_pdf):
@@ -39,18 +40,44 @@ def main():
     base_name= os.path.basename(input_pdf)
     output_pdf=os.path.join("outputs",f"compressed_{base_name}")
 
-    size_before= get_file__size(input_pdf)
+    size_before= get_file_size(input_pdf)
     print(f"📦 Taille avant compression : {size_before} Ko")
 
-    compress_pdf(input_pdf, output_pdf)
+    compress_pdf(input_pdf, output_pdf,compression_level[choice])
 
     if os.path.exists(output_pdf):
-        size_after= get_file__size(output_pdf)
+        size_after= get_file_size(output_pdf)
         print(f"📦 Taille après compression : {size_after} Ko")
         gain=round(100*(size_before-size_after)/size_before,2)
         print(f"📉 Gain de taille : {gain} %")
     else :
         print("❌ La compression a échoué.")
+
+def pdf_to_world_flow():
+
+    input_pdf=input("Entrez le chemin du fichier PDF à convertir : ").strip()
+    if not os.path.exists(input_pdf):
+        print("❌ Le fichier n'existe pas.")
+        return
+    base_name= os.path.basename(input_pdf)
+    output_docx=os.path.join("outputs",f"converted_{base_name}.docx")
+    pdf_to_word(input_pdf, output_docx)
+
+
+
+def main():
+    print("Bienvenue dans l'outil de compression et de conversion PDF !")
+    print("1. Compresser un fichier PDF")
+    print("2. Convertir un fichier PDF en Word")
+    choice = input("Choisissez une option (1-2): ").strip()
+
+    if choice == "1":
+        main()
+    elif choice == "2":
+        pdf_to_world_flow()
+    else:
+        print("❌ Choix invalide.")
+
 
 if __name__ == "__main__":
     main()

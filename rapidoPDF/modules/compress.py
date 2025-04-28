@@ -2,7 +2,7 @@ import subprocess
 import os
 
 
-def get_file__size(file_path):
+def get_file_size(file_path):
     """
     Get the size of a file in Ko, round to 2 decimal places.
     """
@@ -14,7 +14,7 @@ def get_file__size(file_path):
 
 
 
-def compress_pdf(input_path: str, output_path: str):
+def compress_pdf(input_path: str, output_path: str,compression_level: str = "/screen"):
 
     """
     Compress a PDF file using Ghostscript.
@@ -29,7 +29,7 @@ def compress_pdf(input_path: str, output_path: str):
             "gs",
             "-sDEVICE=pdfwrite",
             "-dCompatibilityLevel=1.4",
-            "-dPDFSETTINGS=/ebook",  # screen | ebook | printer | prepress | default
+            f"-dPDFSETTINGS={compression_level}",  
             "-dNOPAUSE",
             "-dQUIET",
             "-dBATCH",
