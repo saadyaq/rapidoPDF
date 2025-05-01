@@ -2,6 +2,7 @@
 
 from modules.compress import compress_pdf, get_file_size
 from modules.pdf_to_word import pdf_to_word
+from modules.word_to_pdf import word_to_pdf
 import os
 
 def compress_pdf_flow():
@@ -53,7 +54,7 @@ def compress_pdf_flow():
     else :
         print("❌ La compression a échoué.")
 
-def pdf_to_world_flow():
+def pdf_to_word_flow():
 
     input_pdf=input("Entrez le chemin du fichier PDF à convertir : ").strip()
     if not os.path.exists(input_pdf):
@@ -63,18 +64,31 @@ def pdf_to_world_flow():
     output_docx=os.path.join("outputs",f"converted_{base_name}.docx")
     pdf_to_word(input_pdf, output_docx)
 
+def word_to_pdf_flow():
+
+    input_docx=input("📄 Entrez le chemin du fichier Word à convertir en PDF : ").strip()
+    if not os.path.exists(input_docx):
+        print("❌ Le fichier n'existe pas.")
+        return
+    base_name= os.path.splitext(os.path.basename(input_docx))[0]
+    output_pdf=os.path.join("outputs",f"converted_{base_name}.pdf")
+    word_to_pdf(input_docx, output_pdf)
+
 
 
 def main():
-    print("Bienvenue dans l'outil de compression et de conversion PDF !")
+    print("Bienvenue dans RapidoPDF!")
     print("1. Compresser un fichier PDF")
     print("2. Convertir un fichier PDF en Word")
-    choice = input("Choisissez une option (1-2): ").strip()
+    print("3. Convertir un fichier Word en PDF")
+    choice = input("Choisissez une option (1-3): ").strip()
 
     if choice == "1":
         main()
     elif choice == "2":
-        pdf_to_world_flow()
+        pdf_to_word_flow()
+    elif choice == "3":
+        word_to_pdf_flow()
     else:
         print("❌ Choix invalide.")
 
