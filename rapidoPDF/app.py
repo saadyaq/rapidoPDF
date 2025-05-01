@@ -3,6 +3,7 @@
 from modules.compress import compress_pdf, get_file_size
 from modules.pdf_to_word import pdf_to_word
 from modules.word_to_pdf import word_to_pdf
+from modules.merge import merge_pdfs
 import os
 
 def compress_pdf_flow():
@@ -74,23 +75,39 @@ def word_to_pdf_flow():
     output_pdf=os.path.join("outputs",f"converted_{base_name}.pdf")
     word_to_pdf(input_docx, output_pdf)
 
+def merge_pdfs_flow():
+    input_files=input("📄 Entrez les chemins des fichiers PDF à fusionner (séparés par des virgules) : ").strip()
+    input_paths=[path.strip() for path in input_files.split(",")]
+
+    for path in input_paths :
+        if not os.path.exists(path):
+            print(f"❌ Le fichier {path} n'existe pas.")
+            return
+    output_pdf= os.path.join("outputs","merged_output.pdf")
+    merge_pdfs(input_paths, output_pdf)
 
 
 def main():
-    print("Bienvenue dans RapidoPDF!")
-    print("1. Compresser un fichier PDF")
-    print("2. Convertir un fichier PDF en Word")
-    print("3. Convertir un fichier Word en PDF")
-    choice = input("Choisissez une option (1-3): ").strip()
+    print("\nBienvenue dans RapidoPDF 🛠️")
+    print("Que voulez-vous faire ?")
+    print("1. Compresser un PDF")
+    print("2. Convertir PDF en Word")
+    print("3. Convertir Word en PDF")
+    print("4. Fusionner plusieurs PDF")
+
+    choice = input("Votre choix (1-4) : ").strip()
 
     if choice == "1":
-        main()
+        compress_pdf_flow()
     elif choice == "2":
         pdf_to_word_flow()
     elif choice == "3":
         word_to_pdf_flow()
+    elif choice == "4":
+        merge_pdfs_flow()
     else:
         print("❌ Choix invalide.")
+
 
 
 if __name__ == "__main__":
